@@ -1,5 +1,6 @@
 from backend import db_app
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db_app.Model):
 
@@ -37,4 +38,10 @@ class User(db_app.Model):
         results = cls.query.filter_by(**query_dic)            
 
         return [result.return_json() for result in results]
+    
+    def set_password(self, password):
+        self.userpsd= generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.userpsd, password)
 

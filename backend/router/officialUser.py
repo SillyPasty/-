@@ -8,8 +8,11 @@ official_user_bp = Blueprint('official_user', __name__)
 def get_official_user_info():
     args_dic = {}
     username = request.args.get('username', type=str)
+    userid = request.args.get('uid', type=int)
     if username != None:
         args_dic['oname'] = username
+    if userid != None:
+        args_dic['oid'] = userid
     official_users = OfficialUser.get_official_user(args_dic)
 
     return jsonify({'data': official_users})
@@ -32,9 +35,10 @@ def put_official_user_info():
 def add_official_user_info():
     user = OfficialUser(
         oname = request.form.get('username'),
-        isadmin = request.form.get('isAdmin'),
-        opsd = request.form.get('password')
+        isadmin = request.form.get('isAdmin')
     )
+    user.set_password(request.form.get('password'))
+
     db_app.session.add(user)
     db_app.session.commit()
     return jsonify({'status': 'success'})

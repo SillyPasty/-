@@ -1,6 +1,7 @@
 from backend import db_app
 from datetime import datetime
 from sqlalchemy.dialects.mysql import TINYINT
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class OfficialUser(db_app.Model):
 
@@ -21,6 +22,12 @@ class OfficialUser(db_app.Model):
         dic['date'] = self.odate
         dic['password'] = self.opsd
         return dic
+    
+    def set_password(self, password):
+        self.opsd= generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.opsd, password)
 
     @classmethod
     def get_official_user(cls, args_dic):
