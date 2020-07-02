@@ -4,6 +4,7 @@ from backend.models.order import Order
 from backend.models.detailOrder import DetailOrder
 from backend.models.type import Type
 from backend.models.product import Product
+import datetime
 
 
 statistic_bp = Blueprint('statistic', __name__)
@@ -105,8 +106,16 @@ def get_type():
 
     args_dic['pid_list'] = [prod['uid'] for prod in products]
     products = DetailOrder.get_type_product(args_dic)
+    totals = 0
+    totaln = 0
+    for product in products:
+        totals += product['totalprice']
+        totaln += product['totalnumber']
 
 
+    return jsonify({'data': {'totalsum': totals, 'totalnumber':totaln}})
 
-    return jsonify({'data': products})
 
+def timestamp2string(timeStamp):
+        d = datetime.datetime.fromtimestamp(timeStamp)
+        return d.strftime("%Y-%m-%d")
