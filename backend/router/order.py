@@ -27,8 +27,19 @@ def get_order_info():
         return_list = DetailOrder.get_detail_order(args_dic)
 
     else:
+        orderid_list = []
         for order in orders:
-            order['detailorders'] = DetailOrder.get_detail_order({'orderid': order['orderid']})
+            orderid_list.append(order['orderid'])
+        detail_orders = DetailOrder.get_detail_order({'oid_list': orderid_list})
+        detail_orders_dic = {}
+        for detail_order in detail_orders:
+            order_id = detail_order.get('order_id')
+            if detail_orders_dic.get(order_id) == None:
+                detail_orders_dic[order_id] = [detail_order]
+            else:
+                detail_orders_dic[order_id].append(detail_order)
+        for order in orders:
+            order['detailorders'] = detail_orders_dic[order['orderid']]
             return_list.append(order)
 
     return jsonify({'data': return_list})

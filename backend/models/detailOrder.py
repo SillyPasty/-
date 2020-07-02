@@ -33,6 +33,7 @@ class DetailOrder(db_app.Model):
         dic['price'] = (float)(self.dprice)
         dic['number'] = self.number
         dic['status'] = self.status
+        dic['order_id'] = self.orderid
         return dic
     
     @classmethod
