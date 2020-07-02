@@ -43,6 +43,24 @@ def get_seller_sta():
 
     return jsonify({'data': sellers})
 
+@statistic_bp.route('/api/statistics/total', methods=['GET'])
+def get_total():
+    args_dic = {}
+    args_dic['start'] = request.args.get('start')
+    args_dic['end'] = request.args.get('end')
+
+    orders = Order.get_period_order(args_dic)
+    args_dic['oid_list'] = [order['orderid'] for order in orders]
+
+    detail_orders = DetailOrder.get_detail_order(args_dic)
+    totals = 0
+    totaln = 0
+    for detail_order in detail_orders:
+        totals += detail_order['price']
+        totaln += detail_order['number']
+
+    return jsonify({'data': {'totalsum': totals, 'totalnumber':totaln}})
+
 @statistic_bp.route('/api/statistics/topseller', methods=['GET'])
 def get_topseller():
     args_dic = {}
