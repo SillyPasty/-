@@ -7,7 +7,7 @@ official_user_bp = Blueprint('official_user', __name__)
 @official_user_bp.route('/api/admin', methods=['GET'])
 def get_official_user_info():
     args_dic = {}
-    username = request.args.get('username', type=str)
+    username = request.args.get('username')
     userid = request.args.get('uid', type=int)
     if username != None:
         args_dic['oname'] = username

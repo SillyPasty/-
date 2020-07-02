@@ -11,7 +11,7 @@ user_bp = Blueprint('user', __name__)
 @user_bp.route('/api/user', methods=['GET'])
 def get_user_info():
     args_dic = {}
-    username = request.args.get('username', type=str)
+    username = request.args.get('username')
     userid = request.args.get('uid', type=int)
     if username != None:
         args_dic['username'] = username

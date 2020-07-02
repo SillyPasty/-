@@ -9,10 +9,10 @@ product_bp = Blueprint('product', __name__)
 @product_bp.route('/api/product', methods=['GET'])
 def get_product_info():
     args_dic = {}
-    oid = request.args.get('sellerid', type=str)
-    pname = request.args.get('productname', type=str)
-    firsttype = request.args.get('type1', type=str)
-    secondtype = request.args.get('type2', type=str)
+    oid = request.args.get('sellerid')
+    pname = request.args.get('productname')
+    firsttype = request.args.get('type1')
+    secondtype = request.args.get('type2')
     type_ids = None
     if firsttype != None:
         tp_args_dic = {'type1': firsttype}

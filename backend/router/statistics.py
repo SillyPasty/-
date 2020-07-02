@@ -92,8 +92,8 @@ def get_month():
 @statistic_bp.route('/api/statistics/type', methods=['GET'])
 def get_type():
     args_dic = {}
-    type1 = request.args.get('type1', type=str)
-    type2 = request.args.get('type2', type=str)
+    type1 = request.args.get('type1')
+    type2 = request.args.get('type2')
     sellerid = request.args.get('sellerid', type=int)
     if type1: args_dic['type1'] = type1
     if type2: args_dic['type2'] = type2
