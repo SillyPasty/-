@@ -48,7 +48,11 @@ def put_product_info():
     product = Product().query.filter_by(pid=prid).first()
     type1 = request.form.get('type1')
     type2 = request.form.get('type2')
-    type_id = [typ['typeid'] for typ in Type.get_type({'type1': type1, 'type2': type2})][0]
+    types = [typ['typeid'] for typ in Type.get_type({'type1': type1, 'type2': type2})]
+    if len(types) == 0:
+        return jsonify({'status': 'fail'})
+
+    type_id = types[0]
     if product == None:
         return jsonify({'status': 'fail'})
     else:
