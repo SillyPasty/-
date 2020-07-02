@@ -100,12 +100,13 @@ def get_type():
     if sellerid: args_dic['oid'] = sellerid
 
     type_list = Type.get_type(args_dic)
-
+    print(len(type_list))
     args_dic['types'] = [types['typeid'] for types in type_list]
     products = Product.get_product(args_dic)
-
+    print(len(products))
     args_dic['pid_list'] = [prod['uid'] for prod in products]
     products = DetailOrder.get_type_product(args_dic)
+    print(len(products))
     totals = 0
     totaln = 0
     for product in products:
