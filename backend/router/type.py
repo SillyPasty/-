@@ -12,23 +12,23 @@ def get_type():
     if f_type != None:
         args_dic['type1'] = f_type
     types = Type.get_type(args_dic)
-    dic = {}
-    for t in types:
-        item = {
-            'secondtypename': t['type2'],
-            'typeid': t['typeid']
-        }
-        if dic.get(t['type1']) == None:
-            dic[t['type1']] = [item]
-        else:
-            dic[t['type1']].append(item)
-    result = []
-    for k, v in dic.items():
-        result.append({
-            'firsttypename': k,
-            'secondtype': v
-        })
-    return jsonify({'data': result})
+    # dic = {}
+    # for t in types:
+    #     item = {
+    #         'secondtypename': t['type2'],
+    #         'typeid': t['typeid']
+    #     }
+    #     if dic.get(t['type1']) == None:
+    #         dic[t['type1']] = [item]
+    #     else:
+    #         dic[t['type1']].append(item)
+    # result = []
+    # for k, v in dic.items():
+    #     result.append({
+    #         'firsttypename': k,
+    #         'secondtype': v
+    #     })
+    return jsonify({'data': types})
 
 @type_bp.route('/api/type', methods=['POST'])
 def add_type():

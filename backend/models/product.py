@@ -27,6 +27,7 @@ class Product(db_app.Model):
         dic['date'] = self.pdate
         dic['description'] = self.description
         dic['remain'] = self.remain
+        dic['typeid'] = self.typeid
         
         return dic
     

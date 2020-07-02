@@ -29,6 +29,17 @@ def get_product_info():
 
     products = Product.get_product(args_dic)
 
+    typeid_list = [product['typeid'] for product in products]
+    types = Type.get_type({'typeid_list': typeid_list})
+    types_dic = {}
+    for typ in types:
+        types_dic[typ['typeid']] = typ
+    
+    for product in products:
+        product['type1'] = types_dic[product['typeid']]['type1']
+        product['type2'] = types_dic[product['typeid']]['type2']
+
+
     return jsonify({'data': products})
 
 @product_bp.route('/api/product', methods=['PUT'])

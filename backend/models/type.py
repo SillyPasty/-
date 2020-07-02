@@ -18,12 +18,16 @@ class Type(db_app.Model):
     
     @classmethod
     def get_type(cls, args_dic):
-        args_list = ['typeid', 'type1', 'type2']
+        args_list = ['typeid', 'type1', 'type2', 'typeid_list']
         query_dic = {}
+        results = None
         for arg in args_list:
             if args_dic.get(arg) != None:
-                query_dic[arg] = args_dic.get(arg)
-        results = cls.query.filter_by(**query_dic)            
+                if arg == 'typeid_list':
+                        results = cls.query.filter(Type.typeid.in_(args_dic[arg]))
+                else:            
+                    query_dic[arg] = args_dic.get(arg)
+        results = results.filter_by(**query_dic) if results else cls.query.filter_by(**query_dic)
 
         return [result.return_json() for result in results]
 
