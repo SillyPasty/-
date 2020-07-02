@@ -64,6 +64,7 @@ class DetailOrder(db_app.Model):
                                          func.sum(cls.number).label('numbers')). \
                                             group_by(cls.pid). \
                                             filter(cls.orderid.in_(args_dic['orderid_list'])).\
+                                            filter(cls.status != 'canceled').\
                                             filter_by(**query_dic).\
                                             order_by(db_app.desc('sums'))
 
@@ -91,6 +92,7 @@ class DetailOrder(db_app.Model):
                                          func.sum(cls.number).label('numbers')). \
                                             group_by(cls.oid). \
                                             filter(cls.orderid.in_(args_dic['orderid_list'])).\
+                                            filter(cls.status != 'canceled').\
                                             filter_by(**query_dic).\
                                             order_by(db_app.desc('sums'))
 
@@ -118,6 +120,7 @@ class DetailOrder(db_app.Model):
                                          func.sum(cls.number).label('numbers')). \
                                             group_by(cls.pid). \
                                             filter(cls.pid.in_(args_dic['pid_list'])).\
+                                            filter(cls.status != 'canceled').\
                                             filter_by(**query_dic).\
                                             order_by(db_app.desc('sums'))
 

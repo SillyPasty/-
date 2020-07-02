@@ -15,3 +15,4 @@ flask_app.register_blueprint(user_bp)
 flask_app.register_blueprint(type_bp)
 flask_app.register_blueprint(statistic_bp)
 flask_app.register_blueprint(login_bp)
+
