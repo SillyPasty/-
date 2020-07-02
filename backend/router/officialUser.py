@@ -26,7 +26,9 @@ def put_official_user_info():
     else:
         user.oname = request.form.get('username')
         user.isadmin = request.form.get('isAdmin')
-        user.opsd = request.form.get('password')
+        opsd = request.form.get('password')
+        if opsd != ' ':
+            user.set_password(opsd)
         db_app.session.commit()
         return jsonify({'status': 'success'})
     return jsonify({'status': 'success'})

@@ -11,7 +11,7 @@ def login():
     opsd = request.form.get('password')
 
     user = OfficialUser.query.filter_by(oname = oname).first()
-    if user.check_password(opsd):
+    if user != None and user.check_password(opsd):
         result = json.dumps({'status': 'success', 'uid': user.oid, 'isAdmin': user.isadmin})
         resp = Response(result, content_type='application/json')
         resp.set_cookie('uid', str(user.oid))

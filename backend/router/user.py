@@ -30,9 +30,11 @@ def put_user_info():
     else:
         user.username = request.form.get('username')
         user.gender = request.form.get('gender')
-        user.userpsd = request.form.get('password')
         user.address = request.form.get('address')
         user.phone = request.form.get('tel')
+        userpsd = request.form.get('password')
+        if userpsd != ' ':
+            user.set_password(userpsd)
         db_app.session.commit()
         return jsonify({'status': 'success'})
 
