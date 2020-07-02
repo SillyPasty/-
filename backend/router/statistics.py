@@ -98,7 +98,7 @@ def get_type():
     if type1: args_dic['type1'] = type1
     if type2: args_dic['type2'] = type2
     if sellerid: args_dic['oid'] = sellerid
-
+    print(args_dic)
     type_list = Type.get_type(args_dic)
     print(len(type_list))
     args_dic['types'] = [types['typeid'] for types in type_list]
