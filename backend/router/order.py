@@ -47,7 +47,7 @@ def get_order_info():
 @order_bp.route('/api/order', methods=['PUT'])
 def put_order_info():
     detail_ordid = request.args.get('uid', type=int)
-    dorder = DetailOrder().query.filter_by(detailedoid=detail_ordid).first()
+    dorder = DetailOrder().query.filter_by(detailed_orderID=detail_ordid).first()
     status = request.args.get('status', type=str)
     if dorder == None or status == None:
         return jsonify({'status': 'fail'})

@@ -8,6 +8,7 @@ import string
 
 user_bp = Blueprint('user', __name__)
 
+
 @user_bp.route('/api/user', methods=['GET'])
 def get_user_info():
     args_dic = {}
@@ -21,40 +22,43 @@ def get_user_info():
 
     return jsonify({'data': official_users})
 
+
 @user_bp.route('/api/user', methods=['PUT'])
 def put_user_info():
     offid = request.args.get('uid', type=int)
-    user = User().query.filter_by(uid=offid).first()
+    user = User().query.filter_by(userID=offid).first()
     if user == None:
         return jsonify({'status': 'fail'})
     else:
-        user.username = request.form.get('username')
+        user.uName = request.form.get('username')
         user.gender = request.form.get('gender')
         user.address = request.form.get('address')
-        user.phone = request.form.get('tel')
+        user.tel = request.form.get('tel')
         userpsd = request.form.get('password')
         if userpsd != ' ':
             user.set_password(userpsd)
         db_app.session.commit()
         return jsonify({'status': 'success'})
 
+
 @user_bp.route('/api/user', methods=['POST'])
 def add_user_info():
     user = User(
-        username = request.form.get('username'),
+        uName = request.form.get('username'),
         gender = request.form.get('gender'),
         address = request.form.get('address'),
-        phone = request.form.get('tel')
+        tel = request.form.get('tel')
     )
     user.set_password(request.form.get('password'))
     db_app.session.add(user)
     db_app.session.commit()
     return jsonify({'status': 'success'})
 
+
 @user_bp.route('/api/user', methods=['DELETE'])
 def del_user_info():
     usrid = request.args.get('uid', type=int)
-    user = User().query.filter_by(uid=usrid).first()
+    user = User().query.filter_by(userID=usrid).first()
     if user == None:
         return jsonify({'status': 'fail'})
     else:
@@ -62,10 +66,11 @@ def del_user_info():
         db_app.session.commit()
         return jsonify({'status': 'success'})
 
+
 @user_bp.route('/api/user/psw', methods=['PUT'])
 def reset_user_psw():
     offid = request.args.get('uid', type=int)
-    user = User().query.filter_by(uid=offid).first()
+    user = User().query.filter_by(userID=offid).first()
     if user == None:
         return jsonify({'status': 'fail'})
     else:

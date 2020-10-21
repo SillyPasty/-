@@ -6,12 +6,12 @@ class Cart(db_app.Model):
 
     __tablename__ = 'cart'
 
-    cid = db_app.Column(db_app.Integer, primary_key=True, autoincrement=True, index=True)
-    cnumber = db_app.Column(db_app.Integer)
-    cprice = db_app.Column(DOUBLE)
+    cartID = db_app.Column(db_app.Integer, primary_key=True, autoincrement=True, index=True)
+    cNumber = db_app.Column(db_app.Integer)
+    cPrice = db_app.Column(DOUBLE)
 
-    pid = db_app.Column(db_app.Integer, db_app.ForeignKey('product.pid'))
-    uid = db_app.Column(db_app.Integer, db_app.ForeignKey('user.uid'))
+    Product_itemID = db_app.Column(db_app.Integer, db_app.ForeignKey('product.itemID'), index=True)
+    User_userID = db_app.Column(db_app.Integer, db_app.ForeignKey('user.userID'), index=True)
 
     def return_json(self):
         dic = {}

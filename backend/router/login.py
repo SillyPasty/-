@@ -10,11 +10,11 @@ def login():
     oname = request.form.get('username')
     opsd = request.form.get('password')
 
-    user = OfficialUser.query.filter_by(oname = oname).first()
+    user = OfficialUser.query.filter_by(oName = oname).first()
     if user != None and user.check_password(opsd):
-        result = json.dumps({'status': 'success', 'uid': user.oid, 'isAdmin': user.isadmin})
+        result = json.dumps({'status': 'success', 'uid': user.Official_user_official_userID, 'isAdmin': user.isAdmin})
         resp = Response(result, content_type='application/json')
-        resp.set_cookie('uid', str(user.oid))
-        resp.set_cookie('isAdmin', str(user.isadmin))
+        resp.set_cookie('uid', str(user.Official_user_official_userID))
+        resp.set_cookie('isAdmin', str(user.isAdmin))
         return resp
     return jsonify({'status': 'fail'})

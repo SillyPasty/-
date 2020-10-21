@@ -20,12 +20,12 @@ def get_official_user_info():
 @official_user_bp.route('/api/admin', methods=['PUT'])
 def put_official_user_info():
     offid = request.args.get('uid', type=int)
-    user = OfficialUser().query.filter_by(oid=offid).first()
+    user = OfficialUser().query.filter_by(official_userID=offid).first()
     if user == None:
         return jsonify({'status': 'fail'})
     else:
-        user.oname = request.form.get('username')
-        user.isadmin = request.form.get('isAdmin')
+        user.oName = request.form.get('username')
+        user.isAdmin = request.form.get('isAdmin')
         opsd = request.form.get('password')
         if opsd != ' ':
             user.set_password(opsd)
@@ -33,11 +33,12 @@ def put_official_user_info():
         return jsonify({'status': 'success'})
     return jsonify({'status': 'success'})
 
+
 @official_user_bp.route('/api/admin', methods=['POST'])
 def add_official_user_info():
     user = OfficialUser(
-        oname = request.form.get('username'),
-        isadmin = request.form.get('isAdmin')
+        oName = request.form.get('username'),
+        isAdmin = request.form.get('isAdmin')
     )
     user.set_password(request.form.get('password'))
 
@@ -45,10 +46,11 @@ def add_official_user_info():
     db_app.session.commit()
     return jsonify({'status': 'success'})
 
+
 @official_user_bp.route('/api/admin', methods=['DELETE'])
 def del_official_user_info():
     offid = request.args.get('uid', type=int)
-    user = OfficialUser().query.filter_by(oid=offid).first()
+    user = OfficialUser().query.filter_by(official_userID=offid).first()
     if user == None:
         return jsonify({'status': 'fail'})
     else:

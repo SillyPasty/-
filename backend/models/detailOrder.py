@@ -10,43 +10,50 @@ class DetailOrder(db_app.Model):
 
     __tablename__ = 'detailed_order'
 
-    detailedoid = db_app.Column(db_app.Integer, primary_key=True, autoincrement=True, index=True)
-    number = db_app.Column(db_app.Integer)
-    dprice = db_app.Column(DOUBLE)
+    detailed_orderID = db_app.Column(db_app.Integer, primary_key=True, autoincrement=True, index=True)
+    iNumber = db_app.Column(db_app.Integer)
+    dPrice = db_app.Column(DOUBLE)
     status = db_app.Column(db_app.String(50))
 
-    orderid = db_app.Column(db_app.Integer, db_app.ForeignKey('order.orderid'))
+    Order_orderID = db_app.Column(db_app.Integer, db_app.ForeignKey('all_order.orderID'), index=True)
     order = relationship('Order', backref='detail_of_order')
 
-    pid = db_app.Column(db_app.Integer, db_app.ForeignKey('product.pid'))
+    Product_itemID = db_app.Column(db_app.Integer, db_app.ForeignKey('product.itemID'), index=True)
     product = relationship('Product', backref='product_detailorder')
 
-    oid = db_app.Column(db_app.Integer, db_app.ForeignKey('official_user.oid'))
+    Official_user_official_userID = db_app.Column(db_app.Integer, db_app.ForeignKey('official_user.official_userID'), index=True)
     official_user = relationship('OfficialUser', backref='official_detailorder')
 
     def return_json(self):
         dic = {}
 
-        dic['detailorderid'] = self.detailedoid
-        dic['sellerid'] = self.oid
-        dic['productid'] = self.pid
-        dic['price'] = (float)(self.dprice)
-        dic['number'] = self.number
+        dic['detailorderid'] = self.detailed_orderID
+        dic['sellerid'] = self.Official_user_official_userID
+        dic['productid'] = self.Product_itemID
+        dic['price'] = (float)(self.dPrice)
+        dic['number'] = self.iNumber
         dic['status'] = self.status
-        dic['order_id'] = self.orderid
+        dic['order_id'] = self.Order_orderID
         return dic
     
     @classmethod
     def get_detail_order(cls, args_dic):
         args_list = ['detailedoid', 'orderid', 'oid', 'pid', 'status', 'oid_list']
+        relationship_dic = {
+            'detailedoid': 'detailed_orderID',
+            'orderid': 'Order_orderID',
+            'oid': 'Official_user_official_userID',
+            'pid': 'Product_itemID',
+            'status': 'status',
+        }
         query_dic = {}
         results = None
         for arg in args_list:
             if args_dic.get(arg) != None:
                 if arg == 'oid_list':
-                    results = cls.query.filter(DetailOrder.orderid.in_(args_dic[arg]))
+                    results = cls.query.filter(DetailOrder.Order_orderID.in_(args_dic[arg]))
                 else:
-                    query_dic[arg] = args_dic.get(arg)
+                    query_dic[relationship_dic[arg]] = args_dic.get(arg)
 
         results = results.filter_by(**query_dic) if results else cls.query.filter_by(**query_dic)
 
@@ -55,16 +62,23 @@ class DetailOrder(db_app.Model):
     @classmethod
     def get_popular_product(cls, args_dic):
         args_list = ['oid']
+        relationship_dic = {
+            'detailedoid': 'detailed_orderID',
+            'orderid': 'Order_orderID',
+            'oid': 'Official_user_official_userID',
+            'pid': 'Product_itemID',
+            'status': 'status',
+        }
         query_dic = {}
         for arg in args_list:
             if args_dic.get(arg) != None:
-                    query_dic[arg] = args_dic.get(arg)
+                    query_dic[relationship_dic[arg]] = args_dic.get(arg)
 
-        results = db_app.session().query(cls.pid,
-                                         func.sum(cls.dprice).label('sums'), 
-                                         func.sum(cls.number).label('numbers')). \
-                                            group_by(cls.pid). \
-                                            filter(cls.orderid.in_(args_dic['orderid_list'])).\
+        results = db_app.session().query(cls.Product_itemID,
+                                         func.sum(cls.dPrice).label('sums'),
+                                         func.sum(cls.iNumber).label('numbers')). \
+                                            group_by(cls.Product_itemID). \
+                                            filter(cls.Order_orderID.in_(args_dic['orderid_list'])).\
                                             filter(cls.status != 'canceled').\
                                             filter_by(**query_dic).\
                                             order_by(db_app.desc('sums'))
@@ -86,13 +100,13 @@ class DetailOrder(db_app.Model):
         query_dic = {}
         for arg in args_list:
             if args_dic.get(arg) != None:
-                    query_dic[arg] = args_dic.get(arg)
+                    query_dic['Official_user_official_userID'] = args_dic.get(arg)
 
-        results = db_app.session().query(cls.oid,
-                                         func.sum(cls.dprice).label('sums'), 
-                                         func.sum(cls.number).label('numbers')). \
-                                            group_by(cls.oid). \
-                                            filter(cls.orderid.in_(args_dic['orderid_list'])).\
+        results = db_app.session().query(cls.Official_user_official_userID,
+                                         func.sum(cls.dPrice).label('sums'),
+                                         func.sum(cls.iNumber).label('numbers')). \
+                                            group_by(cls.Official_user_official_userID). \
+                                            filter(cls.Order_orderID.in_(args_dic['orderid_list'])).\
                                             filter(cls.status != 'canceled').\
                                             filter_by(**query_dic).\
                                             order_by(db_app.desc('sums'))
@@ -114,13 +128,13 @@ class DetailOrder(db_app.Model):
         query_dic = {}
         for arg in args_list:
             if args_dic.get(arg) != None:
-                    query_dic[arg] = args_dic.get(arg)
+                    query_dic['Official_user_official_userID'] = args_dic.get(arg)
 
-        results = db_app.session().query(cls.pid,
-                                         func.sum(cls.dprice).label('sums'), 
-                                         func.sum(cls.number).label('numbers')). \
-                                            group_by(cls.pid). \
-                                            filter(cls.pid.in_(args_dic['pid_list'])).\
+        results = db_app.session().query(cls.Product_itemID,
+                                         func.sum(cls.dPrice).label('sums'),
+                                         func.sum(cls.iNumber).label('numbers')). \
+                                            group_by(cls.Product_itemID). \
+                                            filter(cls.Product_itemID.in_(args_dic['pid_list'])).\
                                             filter(cls.status != 'canceled').\
                                             filter_by(**query_dic).\
                                             order_by(db_app.desc('sums'))
