@@ -28,7 +28,7 @@ def add_type():
 @type_bp.route('/api/type', methods=['DELETE'])
 def del_type():
     tid = request.args.get('typeid', type=int)
-    typ = Type().query.filter_by(typeid=tid).first()
+    typ = Type().query.filter_by(typeID=tid).first()
     if typ == None:
         return jsonify({'status': 'fail'})
     else:
