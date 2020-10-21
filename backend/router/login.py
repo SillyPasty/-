@@ -12,7 +12,7 @@ def login():
 
     user = OfficialUser.query.filter_by(oName = oname).first()
     if user != None and user.check_password(opsd):
-        result = json.dumps({'status': 'success', 'uid': user.Official_user_official_userID, 'isAdmin': user.isAdmin})
+        result = json.dumps({'status': 'success', 'uid': user.official_userID, 'isAdmin': user.isAdmin})
         resp = Response(result, content_type='application/json')
         resp.set_cookie('uid', str(user.official_userID))
         resp.set_cookie('isAdmin', str(user.isAdmin))
