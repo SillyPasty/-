@@ -14,7 +14,7 @@ def login():
     if user != None and user.check_password(opsd):
         result = json.dumps({'status': 'success', 'uid': user.Official_user_official_userID, 'isAdmin': user.isAdmin})
         resp = Response(result, content_type='application/json')
-        resp.set_cookie('uid', str(user.Official_user_official_userID))
+        resp.set_cookie('uid', str(user.official_userID))
         resp.set_cookie('isAdmin', str(user.isAdmin))
         return resp
     return jsonify({'status': 'fail'})
