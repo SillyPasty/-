@@ -38,7 +38,7 @@ pycrypto==2.6.1
 pycurl==7.43.0.1
 Pygments==2.2.0
 pygobject==3.26.1
-PyJWT==1.5.3
+PyJWT==2.4.0
 pyliblzma==0.5.3
 PyMySQL==0.9.3
 pyOpenSSL==17.5.0
