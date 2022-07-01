@@ -53,7 +53,7 @@ rpm==4.14.1
 SecretStorage==2.3.1
 six==1.11.0
 SQLAlchemy==1.3.18
-supervisor==3.3.1
+supervisor==3.3.3
 typing==3.7.4.1
 urlgrabber==3.10.2
 urllib3==1.22
